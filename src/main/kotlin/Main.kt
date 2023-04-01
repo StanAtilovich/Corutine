@@ -24,22 +24,11 @@ fun main() {
     CoroutineScope(EmptyCoroutineContext).launch {
         try {
             val posts = getPosts()
-           // val authors = getAuthor()
 
             val result = posts.map {
                 async {
-                    PostWithComments(it, getComments(it.id))
+                    PostWithComments(it, getComments(it.id),getAuthor(it.id))
                 }
-
-                async {
-                    PostWithAuthor(it,getAuthor(it.id))
-                }
-
-                async {
-                    CommentWithAuthor(it,getAuthor(it.id))
-                }
-
-
             }.awaitAll()
 
             println(result)
